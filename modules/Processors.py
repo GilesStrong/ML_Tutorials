@@ -1,8 +1,6 @@
 import pandas
 import numpy as np
 
-# ix is deprecated, changed to loc
-
 def moveToCartesian(inData, particle, z = True):
     pt = inData.loc[inData.index[:], particle + "_pT"]
     if z: 
