@@ -11,7 +11,6 @@ def moveToCartesian(inData, particle, z = True):
     inData[particle + '_py'] = pt*np.sin(phi)
     if z: 
         inData[particle + '_pz'] = pt*np.sinh(eta)
-
         
 def moveToPtEtaPhi(inData, particle):
     px = inData.loc[inData.index[:], particle + "_px"]
@@ -20,28 +19,23 @@ def moveToPtEtaPhi(inData, particle):
         pz = inData.loc[inData.index[:], particle + "_pz"]
         
     inData[particle + '_pT'] = np.sqrt(np.square(px)+np.square(py))
+
     if 'mPT' not in particle: 
         inData[particle + '_eta'] = np.arcsinh(pz/inData.loc[inData.index[:], particle + '_pT'])
         
     inData[particle + '_phi'] = np.arcsin(py/inData.loc[inData.index[:], particle + '_pT'])
-    
     inData.loc[(inData[particle + "_px"] < 0) & (inData[particle + "_py"] > 0), particle + '_phi'] = \
             np.pi - inData.loc[(inData[particle + "_px"] < 0) & (inData[particle + "_py"] > 0), particle + '_phi']
-        
     inData.loc[(inData[particle + "_px"] < 0) & (inData[particle + "_py"] < 0), particle + '_phi'] = \
-            -1 * (np.pi + inData.loc[(inData[particle + "_px"] < 0) & (inData[particle + "_py"] < 0), particle + '_phi'])
-                  
+            -1 * (np.pi + inData.loc[(inData[particle + "_px"] < 0) & (inData[particle + "_py"] < 0), particle + '_phi'])          
     inData.loc[(inData[particle + "_px"] < 0) & (inData[particle + "_py"] == 0), particle + '_phi'] = \
             np.random.choice([-1*np.pi, np.pi], inData[(inData[particle + "_px"] < 0) & (inData[particle + "_py"] == 0)].shape[0])
-
     
 def deltaphi(a, b):
     return np.pi - np.abs(np.abs(a-b) - np.pi)
 
-
 def twist(dphi, deta):
     return np.arctan(np.abs(dphi/deta))
-
 
 def addAbsMom(inData, particle, z=True):
     if z:
@@ -61,7 +55,6 @@ def addEnergy(inData, particle):
 
 def addMT(inData, pT, phi, name):
     inData[name + '_mT'] = np.sqrt(2 * pT * inData['mPT_pT'] * (1 - np.cos(deltaphi(phi, inData['mPT_phi']))))
-
     
 def fixData(inData):
     if not inData['gen_target'][0]:
