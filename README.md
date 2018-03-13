@@ -14,4 +14,6 @@ The tutorial can also be run via a Docker image:
 3 `docker exec keras jupyter notebook list`
 4 Take the generated link and load it in a browser, for instance Firefox
 
+The main tutorial is classifiers/0_NN_Ensemble_Classifier_New.ipynb
+
 The data used here was been produced by the [AMVA4NewPhysics](https://amva4newphysics.wordpress.com/) Marie Sklodowska-Curie ITN, which is  funded by the Horizon2020 program of the European Commission under grant agreement: 675440.
